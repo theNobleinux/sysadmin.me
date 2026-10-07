@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="{{ site.Language.Locale | default "en" }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{{ .Description | default site.Params.description | default site.Title }}">
+    <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
+    <link rel="stylesheet" href="{{ (resources.Get "css/main.css").Permalink }}">
+  </head>
+  <body>
+    <header>
+      <a class="site-title" href="{{ site.Home.Permalink }}">{{ site.Title }}</a>
+      <nav aria-label="Primary navigation">
+        <ul>
+          {{ range site.Menus.main }}
+            <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+          {{ end }}
+        </ul>
+      </nav>
+    </header>
+    <main>
+      {{ block "main" . }}{{ end }}
+    </main>
+    <footer>
+      <p style="font-size: 40px;">Built with Hugo.</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+baseURL = "http://192.168.10"
+locale = "en-us"
+title = "Nobleinux | Systems & Infrastructure Engineer"
+
+enableRobotsTXT = true
+buildDrafts = false
+buildFuture = false
+buildExpired = false
+
+[menu]
+  [[menu.main]]
+    name = "Works"
+    url = "/works/"
+    weight = 1
+  [[menu.main]]
+    name = "About"
+    url = "/about/"
+    weight = 2
