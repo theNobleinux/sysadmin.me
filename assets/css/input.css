@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+
+/* Tell Tailwind exactly where your HTML files live */
+@source "../../layouts/**/*.html";
+@source "../../content/**/*.html";
+@source "../../content/**/*.md";

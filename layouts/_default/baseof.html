@@ -1,17 +1,17 @@
 <!doctype html>
-<html lang="{{ site.Language.Locale | default "en" }}">
+<html lang="{{ site.Language.Locale | default "en" }}" class="smooth-scroll">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{ .Description | default site.Params.description | default site.Title }}">
     <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
-    <link rel="stylesheet" href="{{ (resources.Get "css/main.css").Permalink }}">
+    <link rel="stylesheet" href="{{ relURL "/css/main.css" }}">
   </head>
   <body>
-    <header>
-      <a class="site-title" href="{{ site.Home.Permalink }}">{{ site.Title }}</a>
-      <nav aria-label="Primary navigation">
-        <ul>
+    <header class="bg-white py-4 px-8">
+      <nav aria-label="Primary navigation" class="flex items-center justify-between gap-4 max-w-6xl mx-auto">
+        <h3 class="text-3xl font-medium">Nobleinux</h3>
+        <ul class="flex gap-4">
           {{ range site.Menus.main }}
             <li><a href="{{ .URL }}">{{ .Name }}</a></li>
           {{ end }}
@@ -21,8 +21,9 @@
     <main>
       {{ block "main" . }}{{ end }}
     </main>
-    <footer>
-      <p style="font-size: 40px;">Built with Hugo.</p>
+    <footer class="flex justify-between items-center px-8 py-4">
+      <p class="px-3 py-2 text-sm">Built with Hugo. Designed by Nobleinux</p>
+      <p>Lagos. Nigeria</p>
     </footer>
   </body>
 </html>
