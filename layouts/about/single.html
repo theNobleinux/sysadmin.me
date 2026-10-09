@@ -1,0 +1,10 @@
+{{ define "main" }}
+<section class="flex min-h-screen items-center justify-center px-12 py-12" aria-labelledby="about-title">
+  <article class="w-full max-w-3xl text-center">
+    <h1 id="about-title" class="mb-8 text-4xl font-semibold leading-tight sm:text-5xl">{{ .Title }}</h1>
+    <div class="space-y-6 text-lg leading-relaxed text-neutral-700">
+      {{ .Content }}
+    </div>
+  </article>
+</section>
+{{ end }}

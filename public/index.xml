@@ -29,17 +29,17 @@
 			</item>
 			<item>
 				<title></title>
-				<link>http://localhost:1313/about/</link>
-				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-				<guid>http://localhost:1313/about/</guid>
-				<description></description>
-			</item>
-			<item>
-				<title></title>
 				<link>http://localhost:1313/experience/</link>
 				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
 				<guid>http://localhost:1313/experience/</guid>
 				<description></description>
+			</item>
+			<item>
+				<title>About Me</title>
+				<link>http://localhost:1313/about/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>http://localhost:1313/about/</guid>
+				<description>&lt;p&gt;I’m a systems and infrastructure professional who enjoys making technology reliable, secure, and easier to use. My work brings together Linux administration, cloud and container platforms, automation, and web development.&lt;/p&gt;&#xA;&lt;p&gt;I’ve worked with Ubuntu, Debian, RHEL-based systems, Bash, Python, Ansible, Docker, and AWS. I’m also comfortable building responsive websites with HTML, CSS, JavaScript, Tailwind CSS, and Hugo, and I bring a visual design perspective from graphic design and UI/UX work.&lt;/p&gt;</description>
 			</item>
 	</channel>
 </rss>

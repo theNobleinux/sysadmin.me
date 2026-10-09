@@ -5,3 +5,57 @@
 @source "../../layouts/**/*.html";
 @source "../../content/**/*.html";
 @source "../../content/**/*.md";
+
+@layer components {
+  .hover-fill-left {
+    position: relative;
+    display: inline-block;
+    isolation: isolate;
+    overflow: hidden;
+    transition: color 300ms ease;
+  }
+
+  .hover-fill-left::before {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    background-color: #171717;
+    content: "";
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms ease;
+  }
+
+  .hover-fill-left:hover::before {
+    transform: scaleX(1);
+  }
+
+  .hover-fill-left:hover {
+    color: #fff;
+  }
+
+  .hover-fill-left > span {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hover-fill-left--light {
+    background-color: #171717;
+    color: #fff;
+  }
+
+  .hover-fill-left--light::before {
+    background-color: #fff;
+  }
+
+  .hover-fill-left--light:hover {
+    color: #171717;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hover-fill-left,
+    .hover-fill-left::before {
+      transition: none;
+    }
+  }
+}

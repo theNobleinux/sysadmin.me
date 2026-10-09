@@ -10,17 +10,17 @@ buildExpired = false
 [menu]
   [[menu.main]]
     name = "Works"
-    pageRef = "/works/"
+    url = "/#selected-works"
     weight = 1
   [[menu.main]]
     name = "Experience"
-    pageRef = "/experience/"
+    url = "/#experience"
     weight = 3
   [[menu.main]]
     name = "About"
     pageRef = "/about/"
     weight = 4
   [[menu.main]]
-    name = "skills"
-    pageRef = "#skills"
+    name = "Skills"
+    url = "/#skills"
     weight = 2
