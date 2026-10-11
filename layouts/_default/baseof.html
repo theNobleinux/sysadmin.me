@@ -5,14 +5,139 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{ .Description | default site.Params.description | default site.Title }}">
     <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
+    <link rel="icon" href="{{ "favicon.ico" | relURL }}?v=2" type="image/x-icon">
     <link rel="stylesheet" href="{{ relURL "/css/main.css" }}">
+    <style>
+      :root {
+        color-scheme: light;
+        --page-bg: #f5f5f5;
+        --page-text: #111827;
+        --muted-text: #4b5563;
+        --surface-bg: #fff;
+        --muted-bg: #f5f5f5;
+        --glass-bg: rgba(255, 255, 255, 0.68);
+        --glass-border: rgba(17, 24, 39, 0.1);
+        --glass-highlight: rgba(255, 255, 255, 0.9);
+        --glass-shadow: 0 12px 40px rgba(17, 24, 39, 0.1);
+        --control-bg: rgba(255, 255, 255, 0.55);
+        --control-border: rgba(17, 24, 39, 0.14);
+      }
+
+      html[data-theme="dark"] {
+        color-scheme: dark;
+        --page-bg: #000000;
+        --page-text: #f3f4f6;
+        --muted-text: #d1d5db;
+        --surface-bg: #050505;
+        --muted-bg: #0a0a0b;
+        --glass-bg: rgba(24, 24, 26, 0.74);
+        --glass-border: rgba(255, 255, 255, 0.12);
+        --glass-highlight: rgba(255, 255, 255, 0.16);
+        --glass-shadow: 0 16px 50px rgba(0, 0, 0, 0.58);
+        --control-bg: rgba(255, 255, 255, 0.055);
+        --control-border: rgba(255, 255, 255, 0.14);
+        --color-neutral-300: #4b5563;
+        --color-neutral-400: #6b7280;
+        --color-neutral-600: #9ca3af;
+        --color-neutral-700: #d1d5db;
+        --color-neutral-800: #e5e7eb;
+        --color-neutral-900: #d1d5db;
+      }
+
+      body {
+        background: var(--surface-bg);
+        color: var(--page-text);
+        transition: background-color 0.35s ease, color 0.35s ease;
+      }
+
+      header {
+        background: transparent;
+        box-shadow: none;
+      }
+
+      footer {
+        color: var(--muted-text);
+      }
+
+      .glass-nav {
+        border: 1px solid var(--glass-border);
+        background: var(--glass-bg);
+        box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-highlight);
+        -webkit-backdrop-filter: blur(24px) saturate(160%);
+        backdrop-filter: blur(24px) saturate(160%);
+      }
+
+      .glass-nav ul:last-of-type a {
+        border-radius: 5px;
+        padding: 0.375rem 0.75rem;
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
+
+      .glass-nav ul:last-of-type a:hover {
+        background: rgba(127, 127, 127, 0.14);
+      }
+
+      .glass-nav a:focus-visible,
+      .glass-control:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 3px;
+      }
+
+      html[data-theme="dark"] .bg-white {
+        background-color: var(--surface-bg);
+      }
+
+      html[data-theme="dark"] .bg-black {
+        background-color: #000;
+      }
+
+      .theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 99px;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        background: linear-gradient(145deg, #242426, #080809 72%);
+        color: #fff;
+        cursor: pointer;
+        box-shadow: 0 7px 20px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 -2px 5px rgba(0, 0, 0, 0.65);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .theme-toggle:hover {
+        transform: translateY(-1px) scale(1.04);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.36), inset 0 1px 1px rgba(255, 255, 255, 0.24), inset 0 -2px 5px rgba(0, 0, 0, 0.65);
+      }
+
+      .theme-toggle svg {
+        width: 1.125rem;
+        height: 1.125rem;
+        cursor: pointer;
+      }
+
+      .theme-toggle .icon-sun,
+      .theme-toggle .icon-moon {
+        display: none;
+      }
+
+      html:not([data-theme="dark"]) .theme-toggle .icon-sun {
+        display: block;
+      }
+
+      html[data-theme="dark"] .theme-toggle .icon-moon {
+        display: block;
+      }
+    </style>
   </head>
   <body>
-    <header class="sticky top-0 z-50 bg-[#f5f5f5]/95 px-6 py-4 shadow-[0_4px_12px_rgba(0,0,0,0.08),0_1px_3px_rgba(255,255,255,0.9)] backdrop-blur-md sm:px-8">
-      <nav aria-label="Primary navigation" class="mx-auto grid max-w-6xl grid-cols-2 items-center gap-x-4 gap-y-3 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+    <header class="sticky top-0 z-50 w-full">
+      <nav aria-label="Primary navigation" class="glass-nav w-full px-4 py-3 sm:px-8">
+        <div class="mx-auto grid w-full max-w-6xl grid-cols-2 items-center gap-x-4 gap-y-3 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
         <a href="{{ "/" | relURL }}" class="col-start-1 row-start-1 text-xl font-medium sm:text-xl">Nobleinux</a>
-        <ul class="col-start-2 row-start-1 flex justify-self-end text-sm sm:col-start-2 sm:justify-self-center">
-          <li aria-label="Language">
+        <ul class="col-start-2 row-start-1 flex items-center justify-self-end text-sm sm:col-start-2 sm:justify-self-center">
+          <li aria-label="Language" class="flex cursor-pointer items-center gap-2">
             {{ if eq site.Language.Lang "de" }}
               <span class="px-1">English</span>
               <span aria-current="true" class="px-1 font-semibold">Deutsch</span>
@@ -20,6 +145,15 @@
               <span aria-current="true" class="px-1 font-semibold">English</span>
               <span class="px-1">Deutsch</span>
             {{ end }}
+            <button type="button" class="theme-toggle" aria-label="Toggle light and dark mode" aria-pressed="false" data-theme-toggle>
+              <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="4.5"></circle>
+                <path d="M12 2.5v2.2M12 19.3v2.2M4.93 4.93l1.56 1.56M17.51 17.51l1.56 1.56M2.5 12h2.2M19.3 12h2.2M4.93 19.07l1.56-1.56M17.51 6.49l1.56-1.56"></path>
+              </svg>
+              <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.8 8.8 0 1 0 11 11Z"></path>
+              </svg>
+            </button>
           </li>
         </ul>
         <ul class="col-span-2 row-start-2 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm sm:col-span-1 sm:col-start-3 sm:row-start-1 sm:justify-end sm:text-base">
@@ -27,16 +161,41 @@
             <li><a href="{{ .URL }}">{{ .Name }}</a></li>
           {{ end }}
         </ul>
+        </div>
       </nav>
     </header>
     <main>
       {{ block "main" . }}{{ end }}
     </main>
     {{ partial "contact-cta.html" . }}
-    <footer class="mx-auto grid max-w-6xl grid-cols-3 items-center py-4 text-sm text-neutral-600">
+    <footer class="mx-auto grid max-w-6xl grid-cols-3 items-center py-8 text-sm">
       <p class="text-sm">Built with Hugo. Designed by Nobleinux</p>
       <p class="text-center">{{ now.Format "January 2, 2006" }}</p>
       <p class="text-right">Lagos. Nigeria</p>
     </footer>
+    <script>
+      const root = document.documentElement;
+      const themeToggle = document.querySelector('[data-theme-toggle]');
+      const savedTheme = localStorage.getItem('theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialTheme = savedTheme === 'dark' || savedTheme === 'light'
+        ? savedTheme
+        : prefersDark ? 'dark' : 'light';
+
+      function applyTheme(theme) {
+        root.setAttribute('data-theme', theme);
+        if (themeToggle) {
+          themeToggle.setAttribute('aria-pressed', String(theme === 'dark'));
+        }
+      }
+
+      applyTheme(initialTheme);
+
+      themeToggle?.addEventListener('click', () => {
+        const nextTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', nextTheme);
+        applyTheme(nextTheme);
+      });
+    </script>
   </body>
 </html>

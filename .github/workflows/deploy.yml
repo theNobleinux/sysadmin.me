@@ -1,0 +1,52 @@
+name: Deploy Hugo to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Runs whenever you push code to your main branch
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Step 1: Fetch repository source code
+      - name: Checkout Source
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      # Step 2: Set up Hugo environment
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'
+          extended: true
+
+      # Step 3: Configure GitHub Pages deployment metadata
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # Step 4: Compile Hugo markdown into optimized static HTML files
+      - name: Build with Hugo
+        run: hugo --gc --minify
+
+      # Step 5: Upload the compiled 'public/' directory to GitHub artifacts
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+
+      # Step 6: Deploy the built files safely to GitHub Pages infrastructure
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,4 +1,4 @@
-{{ $works := slice (site.GetPage "/works") (site.GetPage "/projects/projects5") }}
+{{ $works := slice (site.GetPage "/projects/nextcloud-private-cloud") (site.GetPage "/projects/projects5") }}
 <section id="selected-works" class="w-full max-w-6xl" aria-labelledby="selected-works-title">
   {{ range $index, $work := $works }}
     {{ with $work }}

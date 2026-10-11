@@ -1,0 +1,23 @@
+{{ define "main" }}
+<article class="mx-auto w-full max-w-4xl px-12 py-36">
+  <header class="mb-10">
+    <p class="mb-3 text-sm font-semibold uppercase tracking-widest text-neutral-600">{{ .Params.projectType }}</p>
+    <h1 class="mb-5 text-4xl font-semibold leading-tight sm:text-5xl">{{ .Title }}</h1>
+    <p class="text-lg leading-relaxed text-neutral-700">{{ .Params.summary }}</p>
+    {{ with .Params.tags }}
+      <ul class="mt-6 flex flex-wrap gap-2" aria-label="Project technologies and topics">
+        {{ range . }}
+          <li class="border border-neutral-300 px-2 py-1 text-sm">{{ . }}</li>
+        {{ end }}
+      </ul>
+    {{ end }}
+  </header>
+  <div class="project-content space-y-6 leading-relaxed text-neutral-800">
+    {{ .Content }}
+  </div>
+  <a href="{{ "/works/" | relURL }}" class="mt-12 inline-flex items-center gap-2 font-semibold underline underline-offset-4">
+    {{ partial "icons/icon.html" (dict "name" "arrow-right" "class" "relative z-10 size-4 shrink-0 rotate-180") }}
+    Back to all works
+  </a>
+</article>
+{{ end }}

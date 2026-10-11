@@ -1,0 +1,52 @@
+{{ define "main" }}
+{{ $projectSection := site.GetPage "/projects" }}
+<section class="flex  items-center justify-center px-12 py-52 text-center" aria-labelledby="works-title">
+  <div class="mx-auto w-full max-w-4xl">
+    <h1 id="works-title" class="mb-6 text-4xl font-semibold leading-tight sm:text-5xl">{{ .Title }}</h1>
+    <p class="mx-auto max-w-2xl text-lg leading-relaxed text-neutral-700">
+      A mix of a project I’ve completed and labs I’m using to practise sysadmin work. Each page explains what I set out to do, what I did (or would do), and how I checked (or would check) the result.
+    </p>
+  </div>
+</section>
+
+<section class="theme-muted-bg px-12 py-36" aria-label="Projects and labs">
+  <div class="mx-auto w-full max-w-6xl">
+    {{ with $projectSection }}
+      {{ range $index, $project := .RegularPages.ByWeight }}
+        {{ if gt $index 0 }}
+          <div class="relative left-1/2 w-screen -translate-x-1/2 border-t border-dashed border-neutral-400"></div>
+        {{ end }}
+        <article class="grid grid-cols-1 md:grid-cols-3">
+          <div class="p-6 md:px-8">
+            <p class="mb-2 text-sm text-neutral-600">{{ printf "%02d" (add $index 1) }} · {{ .Params.projectType }}</p>
+            <h2 class="text-xl font-semibold leading-snug">
+              <a href="{{ $project.RelPermalink }}" class="hover:underline">{{ $project.Title }}</a>
+            </h2>
+            {{ with $project.Params.tags }}
+              <ul class="mt-4 flex flex-wrap gap-2" aria-label="Project technologies and topics">
+                {{ range . }}
+                  <li class="border border-neutral-300 px-2 py-1 text-sm">{{ . }}</li>
+                {{ end }}
+              </ul>
+            {{ end }}
+          </div>
+          <div class="space-y-4 p-6 md:col-span-2 md:px-8">
+            <div>
+              <h3 class="mb-1 font-semibold">The problem</h3>
+              <p class="text-neutral-700">{{ $project.Params.challenge }}</p>
+            </div>
+            <div>
+              <h3 class="mb-1 font-semibold">{{ if eq .Params.projectType "Lab" }}How I’d handle it{{ else }}What I did{{ end }}</h3>
+              <p class="text-neutral-700">{{ $project.Params.approach }}</p>
+            </div>
+            <a href="{{ $project.RelPermalink }}" class="inline-flex items-center gap-2 font-semibold underline underline-offset-4">
+              More about this project
+              {{ partial "icons/icon.html" (dict "name" "arrow-right") }}
+            </a>
+          </div>
+        </article>
+      {{ end }}
+    {{ end }}
+  </div>
+</section>
+{{ end }}
