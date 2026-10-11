@@ -50,6 +50,43 @@
         transition: background-color 0.35s ease, color 0.35s ease;
       }
 
+      html {
+        scrollbar-width: none;
+      }
+
+      html::-webkit-scrollbar {
+        display: none;
+      }
+
+      .page-scrollbar {
+        position: fixed;
+        inset: 0 0 0 auto;
+        z-index: 100;
+        width: 10px;
+        touch-action: none;
+      }
+
+      .page-scrollbar-thumb {
+        position: absolute;
+        top: 0;
+        right: 3px;
+        width: 3px;
+        min-height: 36px;
+        border-radius: 999px;
+        background-color: var(--muted-text);
+        cursor: grab;
+      }
+
+      .page-scrollbar-thumb:hover,
+      .page-scrollbar-thumb:active {
+        width: 5px;
+        right: 2px;
+      }
+
+      .page-scrollbar-thumb:active {
+        cursor: grabbing;
+      }
+
       header {
         background: transparent;
         box-shadow: none;
@@ -173,9 +210,14 @@
       <p class="text-center">{{ now.Format "January 2, 2006" }}</p>
       <p class="text-right">Lagos. Nigeria</p>
     </footer>
+    <div class="page-scrollbar" data-page-scrollbar aria-hidden="true">
+      <div class="page-scrollbar-thumb" data-page-scrollbar-thumb></div>
+    </div>
     <script>
       const root = document.documentElement;
       const themeToggle = document.querySelector('[data-theme-toggle]');
+      const scrollbar = document.querySelector('[data-page-scrollbar]');
+      const scrollbarThumb = document.querySelector('[data-page-scrollbar-thumb]');
       const savedTheme = localStorage.getItem('theme');
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       const initialTheme = savedTheme === 'dark' || savedTheme === 'light'
@@ -196,6 +238,66 @@
         localStorage.setItem('theme', nextTheme);
         applyTheme(nextTheme);
       });
+
+      if (scrollbar && scrollbarThumb) {
+        const minimumThumbHeight = 36;
+        let dragging = false;
+        let grabOffset = 0;
+
+        function updateScrollbar() {
+          const trackHeight = scrollbar.clientHeight;
+          const maxScroll = root.scrollHeight - window.innerHeight;
+          const thumbHeight = Math.min(trackHeight, Math.max(minimumThumbHeight, trackHeight * window.innerHeight / root.scrollHeight));
+          const maxThumbTop = trackHeight - thumbHeight;
+          const scrollRatio = maxScroll > 0 ? window.scrollY / maxScroll : 0;
+
+          scrollbar.hidden = maxScroll <= 0;
+          scrollbarThumb.style.height = `${thumbHeight}px`;
+          scrollbarThumb.style.top = `${maxThumbTop * scrollRatio}px`;
+        }
+
+        function scrollFromPointer(clientY) {
+          const trackHeight = scrollbar.clientHeight;
+          const thumbHeight = scrollbarThumb.offsetHeight;
+          const maxThumbTop = trackHeight - thumbHeight;
+          const maxScroll = root.scrollHeight - window.innerHeight;
+          const thumbTop = Math.max(0, Math.min(maxThumbTop, clientY - scrollbar.getBoundingClientRect().top - grabOffset));
+
+          window.scrollTo(0, maxThumbTop > 0 ? thumbTop / maxThumbTop * maxScroll : 0);
+        }
+
+        scrollbar.addEventListener('pointerdown', (event) => {
+          if (event.button !== 0) return;
+
+          if (event.target === scrollbarThumb) {
+            dragging = true;
+            grabOffset = event.clientY - scrollbarThumb.getBoundingClientRect().top;
+            scrollbarThumb.setPointerCapture(event.pointerId);
+          } else {
+            grabOffset = scrollbarThumb.offsetHeight / 2;
+            scrollFromPointer(event.clientY);
+          }
+
+          event.preventDefault();
+        });
+
+        scrollbarThumb.addEventListener('pointermove', (event) => {
+          if (dragging) scrollFromPointer(event.clientY);
+        });
+
+        scrollbarThumb.addEventListener('pointerup', () => {
+          dragging = false;
+        });
+
+        scrollbarThumb.addEventListener('pointercancel', () => {
+          dragging = false;
+        });
+
+        window.addEventListener('scroll', updateScrollbar, { passive: true });
+        window.addEventListener('resize', updateScrollbar);
+        new ResizeObserver(updateScrollbar).observe(document.body);
+        updateScrollbar();
+      }
     </script>
   </body>
 </html>
