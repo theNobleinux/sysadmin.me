@@ -7,6 +7,13 @@
 @source "../../content/**/*.md";
 
 @layer components {
+  .full-bleed-rule {
+    position: relative;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+  }
+
   .theme-surface-bg {
     background-color: var(--surface-bg);
   }

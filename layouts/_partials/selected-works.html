@@ -3,7 +3,7 @@
   {{ range $index, $work := $works }}
     {{ with $work }}
       {{ if gt $index 0 }}
-        <div class="w-full border-t border-dashed border-neutral-400"></div>
+        <div class="full-bleed-rule border-t border-dashed border-neutral-400"></div>
       {{ end }}
       <div class="grid grid-cols-1 md:grid-cols-3">
         {{ if eq $index 0 }}

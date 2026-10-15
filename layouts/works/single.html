@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{ $projectSection := site.GetPage "/projects" }}
-<section class="flex  items-center justify-center px-12 py-52 text-center" aria-labelledby="works-title">
+<section class="flex items-center justify-center px-12 py-52 text-center mobile-page-hero-spacing" aria-labelledby="works-title">
   <div class="mx-auto w-full max-w-4xl">
     <h1 id="works-title" class="mb-6 text-4xl font-semibold leading-tight sm:text-5xl">{{ .Title }}</h1>
     <p class="mx-auto max-w-2xl text-lg leading-relaxed text-neutral-700">
@@ -9,12 +9,12 @@
   </div>
 </section>
 
-<section class="theme-muted-bg px-12 py-36" aria-label="Projects and labs">
+<section class="theme-muted-bg px-12 py-36 mobile-section-spacing" aria-label="Projects and labs">
   <div class="mx-auto w-full max-w-6xl">
     {{ with $projectSection }}
       {{ range $index, $project := .RegularPages.ByWeight }}
         {{ if gt $index 0 }}
-          <div class="w-full border-t border-dashed border-neutral-400"></div>
+          <div class="full-bleed-rule border-t border-dashed border-neutral-400"></div>
         {{ end }}
         <article class="grid grid-cols-1 md:grid-cols-3">
           <div class="p-6 md:px-8">

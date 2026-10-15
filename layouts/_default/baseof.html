@@ -50,6 +50,40 @@
         transition: background-color 0.35s ease, color 0.35s ease;
       }
 
+      @media (max-width: 639px) {
+        .mobile-section-spacing {
+          padding-block: 3rem;
+          padding-inline: 1.25rem;
+        }
+
+        .mobile-home-hero-spacing {
+          padding-block: 6rem 4rem;
+          padding-inline: 1.25rem;
+        }
+
+        .mobile-page-hero-spacing {
+          padding-block: 4rem;
+          padding-inline: 1.25rem;
+        }
+
+        .mobile-about-spacing {
+          padding-block: 2rem;
+          padding-inline: 1.25rem;
+        }
+
+        .mobile-home-actions-spacing {
+          margin-block: 2.5rem;
+        }
+
+        .mobile-action-grid {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          justify-items: center;
+          width: 100%;
+          max-width: 16rem;
+        }
+      }
+
       html {
         scrollbar-width: none;
       }
@@ -102,6 +136,85 @@
         box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-highlight);
         -webkit-backdrop-filter: blur(24px) saturate(160%);
         backdrop-filter: blur(24px) saturate(160%);
+      }
+
+      .mobile-menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.5rem;
+        height: 2.5rem;
+        border: 0;
+        padding: 0;
+        background: transparent;
+        color: var(--page-text);
+        cursor: pointer;
+      }
+
+      .mobile-menu-toggle svg {
+        width: 1.125rem;
+        height: 1.125rem;
+      }
+
+      .mobile-menu-toggle .menu-icon-close,
+      .mobile-menu-toggle[aria-expanded="true"] .menu-icon-open {
+        display: none;
+      }
+
+      .mobile-menu-toggle[aria-expanded="true"] .menu-icon-close {
+        display: block;
+      }
+
+      .language-label {
+        display: none;
+      }
+
+      .primary-menu {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+        padding: 0.75rem 0 0;
+        list-style: none;
+      }
+
+      .primary-menu a {
+        display: block;
+        width: 100%;
+        text-align: left;
+      }
+
+      .primary-menu.is-open {
+        display: flex;
+      }
+
+      @media (min-width: 640px) {
+        .mobile-menu-toggle {
+          display: none;
+        }
+
+        .language-label {
+          display: inline;
+        }
+
+        .primary-menu {
+          grid-column: 3;
+          grid-row: 1;
+          display: flex;
+          width: auto;
+          flex-direction: row;
+          align-items: center;
+          justify-content: flex-end;
+          gap: 1.25rem;
+          padding: 0;
+        }
+
+        .primary-menu a {
+          width: auto;
+        }
       }
 
       .glass-nav ul:last-of-type a {
@@ -177,11 +290,11 @@
         <ul class="col-start-2 row-start-1 flex items-center justify-self-end text-sm sm:col-start-2 sm:justify-self-center">
           <li aria-label="Language" class="flex cursor-pointer items-center gap-2">
             {{ if eq site.Language.Lang "de" }}
-              <span class="px-1">English</span>
-              <span aria-current="true" class="px-1 font-semibold">Deutsch</span>
+              <span class="language-label px-1">English</span>
+              <span aria-current="true" class="language-label px-1 font-semibold">Deutsch</span>
             {{ else }}
-              <span aria-current="true" class="px-1 font-semibold">English</span>
-              <span class="px-1">Deutsch</span>
+              <span aria-current="true" class="language-label px-1 font-semibold">English</span>
+              <span class="language-label px-1">Deutsch</span>
             {{ end }}
             <button type="button" class="theme-toggle" aria-label="Toggle light and dark mode" aria-pressed="false" data-theme-toggle>
               <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -192,9 +305,17 @@
                 <path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.8 8.8 0 1 0 11 11Z"></path>
               </svg>
             </button>
+            <button type="button" class="mobile-menu-toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="primary-menu" data-menu-toggle>
+              <svg class="menu-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <path d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+              <svg class="menu-icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+                <path d="m6 6 12 12M18 6 6 18"></path>
+              </svg>
+            </button>
           </li>
         </ul>
-        <ul class="col-span-2 row-start-2 flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm sm:col-span-1 sm:col-start-3 sm:row-start-1 sm:justify-end sm:text-base">
+        <ul id="primary-menu" class="primary-menu text-sm sm:text-base">
           {{ range site.Menus.main }}
             <li><a href="{{ .URL }}">{{ .Name }}</a></li>
           {{ end }}
@@ -206,10 +327,10 @@
       {{ block "main" . }}{{ end }}
     </main>
     {{ partial "contact-cta.html" . }}
-    <footer class="mx-auto grid max-w-6xl grid-cols-3 items-center py-8 text-sm">
+    <footer class="mx-auto grid w-full max-w-6xl grid-cols-1 gap-2 px-4 py-8 text-sm sm:grid-cols-3 sm:gap-0 sm:px-8">
       <p class="text-sm">Built with Hugo. Designed by Nobleinux</p>
-      <p class="text-center">{{ now.Format "January 2, 2006" }}</p>
-      <p class="text-right">Lagos. Nigeria</p>
+      <p class="text-left sm:text-center">{{ now.Format "January 2, 2006" }}</p>
+      <p class="text-left sm:text-right">Lagos. Nigeria</p>
     </footer>
     <div class="page-scrollbar" data-page-scrollbar aria-hidden="true">
       <div class="page-scrollbar-thumb" data-page-scrollbar-thumb></div>
@@ -217,6 +338,8 @@
     <script>
       const root = document.documentElement;
       const themeToggle = document.querySelector('[data-theme-toggle]');
+      const menuToggle = document.querySelector('[data-menu-toggle]');
+      const primaryMenu = document.querySelector('#primary-menu');
       const scrollbar = document.querySelector('[data-page-scrollbar]');
       const scrollbarThumb = document.querySelector('[data-page-scrollbar-thumb]');
       const savedTheme = localStorage.getItem('theme');
@@ -238,6 +361,29 @@
         const nextTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         localStorage.setItem('theme', nextTheme);
         applyTheme(nextTheme);
+      });
+
+      function setMobileMenuOpen(isOpen) {
+        if (!menuToggle || !primaryMenu) return;
+
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
+        menuToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+        primaryMenu.classList.toggle('is-open', isOpen);
+      }
+
+      menuToggle?.addEventListener('click', () => {
+        setMobileMenuOpen(menuToggle.getAttribute('aria-expanded') !== 'true');
+      });
+
+      primaryMenu?.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => setMobileMenuOpen(false));
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && menuToggle?.getAttribute('aria-expanded') === 'true') {
+          setMobileMenuOpen(false);
+          menuToggle.focus();
+        }
       });
 
       if (scrollbar && scrollbarThumb) {
