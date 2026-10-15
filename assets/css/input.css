@@ -1,5 +1,16 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Manrope";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/fonts/manrope-latin-variable.woff2") format("woff2");
+}
+
+@theme {
+  --font-sans: "Manrope", sans-serif;
+}
 
 /* Tell Tailwind exactly where your HTML files live */
 @source "../../layouts/**/*.html";
